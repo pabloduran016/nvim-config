@@ -2,7 +2,6 @@
 
 Section to define todos for config
 
-- When Ctrl-O or Ctrl-I center view
 - Force to keep a certain amount of lines at the bottom of the page
 - Auto imports
 - Remove snippets (at least in python)

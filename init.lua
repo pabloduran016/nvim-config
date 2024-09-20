@@ -1,7 +1,20 @@
-require 'lazy-configuration'
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-require 'keymaps'
+require 'lazy-bootstrap'
+
+require 'lazy-plugins'
 
 require 'options'
 
-require 'plugins'
+require 'keymaps'
+
+require 'telescope-setup'
+
+require 'treesitter-setup'
+
+require 'lsp-setup'
+
+require 'luasnip-setup'
+
+require 'cmp-setup'
