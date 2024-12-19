@@ -9,12 +9,13 @@ require 'options'
 
 require 'keymaps'
 
-require 'telescope-setup'
+-- Run init.lua in cwd
+-- Check if init.lua exists and run it
+if vim.fn.getcwd() ~= vim.fn.stdpath("config") then
+    local init_path = vim.fn.getcwd() .. '/init.lua'
 
-require 'treesitter-setup'
-
-require 'lsp-setup'
-
-require 'luasnip-setup'
-
-require 'cmp-setup'
+    if vim.fn.filereadable(init_path) == 1 then
+        vim.cmd('luafile ' .. init_path)
+        print("Running `" .. init_path .. "`")
+    end
+end

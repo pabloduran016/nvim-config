@@ -1,8 +1,7 @@
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+local status, err = pcall(require('telescope').load_extension, 'fzf')
+if not status then
+  vim.print("Could not load telescope `fzf` extension: " .. err)
+end
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -43,14 +42,8 @@ vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>rf', require('telescope.builtin').oldfiles, { desc = 'Find [r]ecently opened [f]iles' })
 vim.keymap.set('n', '<leader>ob', require('telescope.builtin').buffers, { desc = 'Find existing [o]pen [b]uffers' })
-
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = '[/] Fuzzily search in current buffer' })
+vim.keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuzzy_find,
+  { desc = '[/] Fuzzily search in current buffer' })
 
 local function telescope_live_grep_open_files()
   require('telescope.builtin').live_grep {
@@ -66,6 +59,10 @@ vim.keymap.set('n', '<leader>tk', require('telescope.builtin').keymaps,
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', function() require('telescope.builtin').find_files({ no_ignore = true }) end,
   { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sF', function()
+  local cwd = require("telescope.utils").buffer_dir()
+  require('telescope.builtin').find_files({ no_ignore = true, cwd = cwd })
+end, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 -- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -103,5 +100,4 @@ require('telescope').setup {
     buffer_previewer_maker = truncate_large_files,
   },
 }
-
 -- vim: ts=2 sts=2 sw=2 et

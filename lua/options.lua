@@ -44,7 +44,7 @@ vim.opt.guicursor = ""
 
 vim.wo.wrap = false
 
-vim.opt.scrolloff = 15
+vim.opt.scrolloff = 50
 vim.opt.isfname:append("@-@")
 
 

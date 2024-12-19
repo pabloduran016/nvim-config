@@ -1,24 +1,20 @@
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
-      'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc',
-      'vim', 'bash', 'css', 'scss', 'html', 'glsl', 'json', 'latex', 'make', 'yaml'
+      'c', 'lua', 'python', 'javascript', 'typescript', 'vimdoc',
+      'bash', 'css', 'scss', 'html', 'json', 'make', 'yaml'
     },
-
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
-
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = "<leader>s",
-        node_incremental = "<leader>s",
-        scope_incremental = "<leader>ss",
-        node_decremental = "<leader>sd",
+        init_selection = "<C-s>",
+        node_incremental = "<C-s>",
+        scope_incremental = "<leader><C-s>",
+        node_decremental = "<C-S>",
       }
     },
     textobjects = {

@@ -27,18 +27,14 @@ cmp.setup {
     { name = 'path' },
     { name = 'buffer', keyword_length = 4, }
   }),
-  experimental = {
-    ghost_text = true,
-  },
 }
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = "nvim_lsp_document_symbol" },
-    { name = 'buffer',                  keyword_length = 2 }
-  }
+  sources = cmp.config.sources({
+    { name = 'buffer', keyword_length = 2, }
+  })
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -46,7 +42,6 @@ cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'cmdline', keyword_length = 2 },
-    { name = 'path',    max_item_count = 4 }
   }
 })
 

@@ -1,53 +1,42 @@
 require('lazy').setup({
-  -- No configuration plugins
-
-  -- Git related plugins
   'tpope/vim-fugitive',
-  -- 'tpope/vim-rhubarb',
-
-  -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
-
-  -- Useful plugin to show you pending keybinds.
-  -- NOTE: `opts = {}` is the same as calling `require('<plugin>').setup({})`
-  -- { 'folke/which-key.nvim', opts = {} },
-
-  { "mbbill/undotree" },
+  {
+    "mbbill/undotree",
+    config = function()
+      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = "[U]ndo Tree Toggle" })
+    end
+  },
 
   {
-    -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim', opts = {} },
-
-      -- Additional configuration for lua
-      'folke/neodev.nvim',
+      'folke/neodev.nvim', -- for editing config is useful
     },
   },
 
   {
-    -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
-
-      -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
-
-      -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
-      -- Autocompletion for commandline and search
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-cmdline',
     },
+    config = function()
+      local luasnip = require 'luasnip'
+
+      require('luasnip.loaders.from_vscode').lazy_load()
+      luasnip.config.setup {}
+
+      luasnip.filetype_extend("htmldjango", { "html" })
+
+      require("cmp-setup")
+    end,
   },
 
   {
@@ -56,25 +45,31 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
-        theme = 'onedark',
+        icons_enabled = true,
+        theme = 'auto',
         component_separators = '|',
         section_separators = '',
+      },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_c = { 'filename' },
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
       },
     },
   },
 
   {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- See `:help ibl`
-    main = 'ibl',
-    opts = {},
+    'numToStr/Comment.nvim',
+    config = function()
+      require("Comment").setup()
+      local ft = require("Comment.ft")
+      ft({ "jinja.html" }, '{#%s#}')
+    end
   },
 
-  { 'numToStr/Comment.nvim', opts = {} },
-
-  -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -87,17 +82,19 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
+      config = function() require 'telescope-setup' end,
     },
   },
 
   {
-    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+    config = function() require 'treesitter-setup' end,
   },
+
   { import = 'themes' },
   { import = 'plugins' },
 }, {})
