@@ -14,6 +14,9 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim',
       'folke/neodev.nvim', -- for editing config is useful
     },
+    config = function()
+      require 'lsp-setup'
+    end
   },
 
   {
