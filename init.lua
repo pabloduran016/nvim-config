@@ -9,6 +9,8 @@ require 'options'
 
 require 'keymaps'
 
+require 'lsp-setup'
+
 -- Run init.lua in cwd
 -- Check if init.lua exists and run it
 if vim.fn.getcwd() ~= vim.fn.stdpath("config") then

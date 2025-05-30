@@ -14,9 +14,6 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim',
       'folke/neodev.nvim', -- for editing config is useful
     },
-    config = function()
-      require 'lsp-setup'
-    end
   },
 
   {
@@ -39,6 +36,7 @@ require('lazy').setup({
       luasnip.filetype_extend("htmldjango", { "html" })
 
       require("cmp-setup")
+      require("snippets")
     end,
   },
 
@@ -69,7 +67,7 @@ require('lazy').setup({
     config = function()
       require("Comment").setup()
       local ft = require("Comment.ft")
-      ft({ "jinja.html" }, '{#%s#}')
+      ft({ "jinja.html" }, { '{#%s#}', '{#%s#}' })
     end
   },
 
@@ -85,8 +83,8 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
-      config = function() require 'telescope-setup' end,
     },
+    config = function() require 'telescope-setup' end,
   },
 
   {

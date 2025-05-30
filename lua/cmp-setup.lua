@@ -3,12 +3,30 @@ local luasnip = require 'luasnip'
 
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local mappings = {
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
   ['<C-d>'] = cmp.mapping.close(),
   ['<C-y>'] = cmp.mapping.confirm { select = true, },
   ["<tab>"] = cmp.config.disable,
+  ["<C-l>"] = cmp.mapping(function(fallback)
+     if luasnip.locally_jumpable(1) then
+       luasnip.jump(1)
+     else
+       fallback()
+     end
+   end, { "i", "s" }),
+  ["<C-k>"] = cmp.mapping(function(fallback)
+     if luasnip.locally_jumpable(-1) then
+       luasnip.jump(-1)
+     else
+       fallback()
+     end
+   end, { "i", "s" }),
+   ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+   ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
 }
+
+for map, _ in pairs(mappings) do
+    pcall(vim.keymap.del, {"i", "s"}, map)
+end
 
 cmp.setup {
   snippet = {

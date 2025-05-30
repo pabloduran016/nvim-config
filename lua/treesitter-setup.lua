@@ -7,15 +7,15 @@ vim.defer_fn(function()
     },
     auto_install = false,
     highlight = { enable = true },
-    indent = { enable = true },
+    -- indent = { enable = true },
     incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "<C-s>",
-        node_incremental = "<C-s>",
-        scope_incremental = "<leader><C-s>",
-        node_decremental = "<C-S>",
-      }
+      enable = false,
+      -- keymaps = {
+      --   init_selection = "<C-s>",
+      --   node_incremental = "<C-s>",
+      --   scope_incremental = "<leader><C-s>",
+      --   node_decremental = "<C-S>",
+      -- }
     },
     textobjects = {
       select = {
